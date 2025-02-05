@@ -1,4 +1,31 @@
+## What is Mongodb ?
+
+- It is a noSql Database Storing Data in json like documents. It Break from traditional relational model, ideal for managing vast data. its for sclaibility flexibility and performance
+
+# MongoDB vs Traditional Relational Databases
+
+| Feature               | MongoDB (NoSQL)                                    | Traditional Relational Databases (SQL)          |
+| --------------------- | -------------------------------------------------- | ----------------------------------------------- |
+| **Data Structure**    | Document-based (JSON-like BSON)                    | Table-based (rows & columns)                    |
+| **Schema**            | Flexible (Schema-less)                             | Fixed schema (Strict structure)                 |
+| **Scalability**       | Horizontal (Sharding) & Vertical                   | Vertical (Adding more resources)                |
+| **Query Language**    | MongoDB Query Language (MQL)                       | SQL (Structured Query Language)                 |
+| **Performance**       | Faster for unstructured data & big data            | Optimized for structured data & complex queries |
+| **Joins**             | Not natively supported (uses embedding or $lookup) | Supports JOIN operations natively               |
+| **Transactions**      | Limited multi-document transactions                | Strong ACID compliance with full transactions   |
+| **Use Cases**         | Big data, real-time apps, IoT, flexible data       | Banking, e-commerce, ERP, structured data       |
+| **Example Databases** | MongoDB, CouchDB, Firebase                         | MySQL, PostgreSQL, Oracle, SQL Server           |
+
+## RDBMS VS MONGODB
+
+| RDBMS   | MONGODB    |
+| ------- | ---------- |
+| TABLE   | COLLECTION |
+| ROWS    | DOCUMENT   |
+| COLUMNS | FIELDS     |
+
 # Ways to use Mongodb Compass
+
 - show dbs
 - use Practice ["here Practice is a database name"]
 - db.createCollection("Test-1") ["this is about creating a cluster of database"]
@@ -6,109 +33,148 @@
 - db.getCollection("Test-1").find()
 
 # Using NoSqlBooster GUI with different operators and methods
-### Understanding of Insert, insertOne, insertMany, find, findOne, field filtering and project 
+
+### Understanding of Insert, insertOne, insertMany, find, findOne, field filtering and project
+
 - this will insert this data but this is deprecated so its better to use insertOne
   ```javascript
-  db.waaa.insert({name:"tonmoy"})
+  db.waaa.insert({ name: "tonmoy" });
   ```
   ```javascript
-  db.waaa.insertOne({name:"tonmoya"})
+  db.waaa.insertOne({ name: "tonmoya" });
   ```
   ```javascript
-  db.waaa.insertMany([
-    { name: "Sara" },
-    { name: "Para" }])
-    ```
-- db.waaa.find() this will find all the data 
+  db.waaa.insertMany([{ name: "Sara" }, { name: "Para" }]);
+  ```
+- db.waaa.find() this will find all the data
 - this will show all the Male gender and it will give all the data and parameters available
-  ```javascript 
-  db.waaa.find({gender: "Male"})
-  ```
-- this will show  only the gender field of the data and this is called fill filtering
- ```javascript
- db.waaa.find({gender: "Male"}, {gender :1 })
- ```
-- More Fill Filtering when we want too show multiple field of data 
   ```javascript
-  db.waaa.find({gender: "Male"}, {gender :1, name:1, age:1, email:1})
+  db.waaa.find({ gender: "Male" });
   ```
-- Project is similar to fill filtering except one problem. The problem is project nly works with find. if we use findOne it will not work 
+- this will show only the gender field of the data and this is called fill filtering
+
+```javascript
+db.waaa.find({ gender: "Male" }, { gender: 1 });
+```
+
+- More Fill Filtering when we want too show multiple field of data
   ```javascript
-  db.waaa.find({gender:"Female"}).project({name:1, gender:1})
-  ``` 
+  db.waaa.find({ gender: "Male" }, { gender: 1, name: 1, age: 1, email: 1 });
+  ```
+- Project is similar to fill filtering except one problem. The problem is project nly works with find. if we use findOne it will not work
+  ```javascript
+  db.waaa.find({ gender: "Female" }).project({ name: 1, gender: 1 });
+  ```
 
 ### Understanding of $eq, $neq, $gt, $lt, $gte, $lte operator
-- Structure of defining operator 
+
+- Structure of defining operator
   ```javascript
-  {field:  {$eq : value}}
+  {
+    field: {
+      $eq: value;
+    }
+  }
   ```
 - $neq is opposite to the $eq
   ```javascript
-  db.waaa.find({gender : {$eq : "Female"}}, {gender:1, name:1})
+  db.waaa.find({ gender: { $eq: "Female" } }, { gender: 1, name: 1 });
   ```
 - $lt is opposite to $gt
+
 ```javascript
-db.waaa.find({age : {$gt : 18}})  
+db.waaa.find({ age: { $gt: 18 } });
 ```
+
 - $lte is opposite to $gte
   ```javascript
-  db.waaa.find({age: {$gte : 18}}).sort({age:1}) 
+  db.waaa.find({ age: { $gte: 18 } }).sort({ age: 1 });
   ```
 
 ### Understanding of $in, $nin Operator and Implicit And Condition
+
 - Implicit and means adding extra condition using ","
 - this will give the data whose age is greater than equal too 18 and less than equal to 30. this two condition is merged using implicit and
+
 ```javascript
-db.waaa.find({age : {$gte :18, $lte : 30}}, {age:1}).sort({age:1})
-```  
-- We can match multiple filed using implicit add as well 
-```javascript
-db.waaa.find({
-    gender:"Female",
-    age: {$gte:18, $lte:30}
-},{age:1, gender:1}).sort({age:1})
-```  
-- $in operator selects the documents where the value of a field is equal to any value in the specific array
-- Structure of $in and $nin 
-```javascript
-{field: {$in : [value1, value2, value3]}}
+db.waaa.find({ age: { $gte: 18, $lte: 30 } }, { age: 1 }).sort({ age: 1 });
 ```
-  
-  ```javascript
-  db.waaa.find({
-    gender: "Female",
-    age: { $in: [18, 20, 22, 24, 28, 30] }},{ age: 1, gender: 1 }).sort({ age: 1 })
-  ```
-  ```javascript
-  db.waaa.find({
-    gender: "Female",
-    age: { $nin: [18, 20, 22, 24, 28, 30]},
-    interests : {$in :["Cooking","Gaming"]}},{ age: 1, gender: 1, interests:1 }).sort({ age: 1 })
-  ```
+
+- We can match multiple filed using implicit add as well
+
+```javascript
+db.waaa
+  .find(
+    {
+      gender: "Female",
+      age: { $gte: 18, $lte: 30 },
+    },
+    { age: 1, gender: 1 }
+  )
+  .sort({ age: 1 });
+```
+
+- $in operator selects the documents where the value of a field is equal to any value in the specific array
+- Structure of $in and $nin
+
+```javascript
+{
+  field: {
+    $in: [value1, value2, value3];
+  }
+}
+```
+
+```javascript
+db.waaa
+  .find(
+    {
+      gender: "Female",
+      age: { $in: [18, 20, 22, 24, 28, 30] },
+    },
+    { age: 1, gender: 1 }
+  )
+  .sort({ age: 1 });
+```
+
+```javascript
+db.waaa
+  .find(
+    {
+      gender: "Female",
+      age: { $nin: [18, 20, 22, 24, 28, 30] },
+      interests: { $in: ["Cooking", "Gaming"] },
+    },
+    { age: 1, gender: 1, interests: 1 }
+  )
+  .sort({ age: 1 });
+```
 
 ### Understanding of $and, $or and implicit vs explicit
-- using implicit 
+
+- using implicit
   ```javascript
-  db.waaa.find({age: {$ne :15, $lte:30}})
+  db.waaa.find({ age: { $ne: 15, $lte: 30 } });
   ```
-- using implicit 
+- using implicit
   ```javascript
-  db.waaa.find({age: {$ne :15, $lte:30}}).project({age:1})
+  db.waaa.find({ age: { $ne: 15, $lte: 30 } }).project({ age: 1 });
   ```
-- we will use explicit and when conditions are more nested 
+- we will use explicit and when conditions are more nested
 - Structure for $and and others
   ```javascript
   {$and :[{ex1},{ex2},...,{exN}]}
   ```
   ```javascript
-  db.waaa.find({
-    $and: [
-        {gender:"Female"},
-        {age:{$ne :15}},
-        {age:{$lte :30}}
-    ]}).project({age:1, gender:1}).sort({age:1})
+  db.waaa
+    .find({
+      $and: [{ gender: "Female" }, { age: { $ne: 15 } }, { age: { $lte: 30 } }],
+    })
+    .project({ age: 1, gender: 1 })
+    .sort({ age: 1 });
   ```
-- $or method 
+- $or method
+
 ```JAVASCRIPT
 db.waaa.find({
     $or: [
@@ -118,89 +184,124 @@ db.waaa.find({
 }).project({interests :1})
 ```
 
-- if there is need to access more nested data filed 
+- if there is need to access more nested data filed
+
 ```javascript
-db.waaa.find({
-    $or: [
-        {"skills.name" : "JAVASCRIPT"},
-        {"skills.name" : "PYTHON"}
-    ]
-}).project({skills :1})
+db.waaa
+  .find({
+    $or: [{ "skills.name": "JAVASCRIPT" }, { "skills.name": "PYTHON" }],
+  })
+  .project({ skills: 1 });
 
 // as this is searching in same field so we can search using $in as well
- db.waaa.find({ "skills.name" : {$in : ["JAVASCRIPT", "PYTHON"]}}).project({"skills.name":1})
+db.waaa
+  .find({ "skills.name": { $in: ["JAVASCRIPT", "PYTHON"] } })
+  .project({ "skills.name": 1 });
 ```
-### Understanding of element operator, array query operator , $exists, $type, $size 
+
+### Understanding of element operator, array query operator , $exists, $type, $size
+
 - if we want to make sure the data really exist in the documents we will use $exists. There is problem with it it can not identify null and undefined
-- Structure 
+- Structure
   ```javascript
   {field : {$exist : <boolean>}}
   ```
-- Which documents have the phone field will show here 
+- Which documents have the phone field will show here
   ```javascript
-  db.waaa.find({phone: {$exists : true}})
+  db.waaa.find({ phone: { $exists: true } });
   ```
-- as unknown is not present in the data so i will return false   
+- as unknown is not present in the data so i will return false
+
   ```javascript
-  db.waaa.find({unknown: {$exists : true}})
+  db.waaa.find({ unknown: { $exists: true } });
   ```
 
 - If we want to get specific type of data we will use $type operator
-- Structure 
+- Structure
+
   ```javascript
   {field : {$type : <BASON Type>}}
   ```
+
   - Example
+
   ```javascript
-  db.waaa.find({age: {$type : "string"}}).project({age:1})
-  db.waaa.find({friends: {$type : "array"}}).project({friends:1})
+  db.waaa.find({ age: { $type: "string" } }).project({ age: 1 });
+  db.waaa.find({ friends: { $type: "array" } }).project({ friends: 1 });
   ```
 
   - If we want to figure out what if the array is empty we have to use array query operator $size. If will mention specific $size it will give us the exact sized array
   - size is used only in array
-  - Structure 
+  - Structure
+
   ```javascript
-  db.waaa.find({friends : {$size:5}}).project({friends:1})
+  db.waaa.find({ friends: { $size: 5 } }).project({ friends: 1 });
   ```
+
   - If we want to figure out any empty filed we have to use $type since the $size works only in array
+
   ```javascript
-  db.waaa.find({company : {$type :"null"}}).project({company:1})
-  ``` 
+  db.waaa.find({ company: { $type: "null" } }).project({ company: 1 });
+  ```
 
   ### Understanding of array,object and array of object query $all, $elemMtach
+
   - I want a specific indexed valued data we can use normal method
+
   ```javascript
   <!-- regular method of matching only one in array -->
   db.waaa.find({interests:"Cooking"}).project({interests:1})
   ```
+
   - For specific index positioned value
+
   ```javascript
-  db.waaa.find({"interests.2":"Cooking"}).project({interests:1})
+  db.waaa.find({ "interests.2": "Cooking" }).project({ interests: 1 });
   ```
+
   - If we want to match exactly
+
   ```javascript
-  db.waaa.find({interests : ["Gardening", "Gaming", "Cooking"]}).project({interests:1})  // It will follow the same ordered mentioned and give data
+  db.waaa
+    .find({ interests: ["Gardening", "Gaming", "Cooking"] })
+    .project({ interests: 1 }); // It will follow the same ordered mentioned and give data
   ```
+
   - If we want to match in more flexible way without maintaining order we need to use $all operator
   - Structure
+
   ```javascript
-  {tags : {$all : ["a","b"]}}
-  ```
-  - Suppose we want to match "Gardening", "Gaming", "Cooking"
-  ```javascript
-  db.waaa.find({interests : { $all : ["Gardening", "Gaming", "Cooking"]}}).project({interests:1})
-  ```
-  - For object we can do the same. this example is strict to the order. Each and every field should be present
-   ```javascript
-   db.waaa.find({
-    skills: {
-        name:"JAVASCRIPT",
-        level:"Expert",
-        isLearning :true
+  {
+    tags: {
+      $all: ["a", "b"];
     }
-   }).project({skills:1})
-   ```
-   - If we want to enjoy flexibility we have to use $elemMatch
+  }
+  ```
+
+  - Suppose we want to match "Gardening", "Gaming", "Cooking"
+
+  ```javascript
+  db.waaa
+    .find({ interests: { $all: ["Gardening", "Gaming", "Cooking"] } })
+    .project({ interests: 1 });
+  ```
+
+  - For object we can do the same. this example is strict to the order. Each and every field should be present
+
+  ```javascript
+  db.waaa
+    .find({
+      skills: {
+        name: "JAVASCRIPT",
+        level: "Expert",
+        isLearning: true,
+      },
+    })
+    .project({ skills: 1 });
+  ```
+
+  - If we want to enjoy flexibility we have to use $elemMatch
+
   ```javascript
   <!--
    Structure :
@@ -218,7 +319,8 @@ db.waaa.find({
 
   ### Understanding of $set, $addToSet and $push
 
-- Structure for set method is 
+- Structure for set method is
+
   ```javascript
   {$set : {<field> : <value>,...}}
 
@@ -229,194 +331,237 @@ db.waaa.find({
     {options}
     )
   ```
-  - for updating the age 
-   ```javascript
+
+  - for updating the age
+
+  ```javascript
+  db.waaa.updateOne(
+    { _id: ObjectId("6406ad63fc13ae5a40000065") },
+    { $set: { age: 20 } }
+  );
+  ```
+
+  - $set replaces the field with new update things. This works meaningful only for primitive data type. if its a non primitive data type its not meaningful. We can use $set for non primitive only if we want to replace intentionally.
+  - For non-primitive data we will use $addToSet. This will set inside the array keeping no duplicates.
+  - Structure for it is
+
+  ```javascript
+  {$addToSet : {<field> : <value>}}
+  ```
+
+  - Example of $addToSet
+
+  ```javascript
+  db.waaa.updateOne(
+    { _id: ObjectId("6406ad63fc13ae5a40000065") },
+    { $addToSet: { interests: "Gaming" } }
+  );
+  ```
+
+  - If we want to add multiple things in the array we have to use $each.
+
+  ```javascript
+  db.waaa.updateOne(
+    { _id: ObjectId("6406ad63fc13ae5a40000065") },
+    { $addToSet: { interests: { $each: ["Sleeping", "Texting"] } } }
+  );
+  ```
+
+  - If we want to keep the duplicates we have to use $push
+
+  ```javascript
+  <!-- Structure -->
+  {$push : {<field> :<value>,...}}
+  db.waaa.updateOne(
+  {_id : ObjectId("6406ad63fc13ae5a40000065")},
+  { $push: {interests : {$each : ["Sleeping", "Texting"]}}}
+  )
+  ```
+
+  ### Understanding of $unset, $pop, $pull, $pullAll
+
+  - if we want to remove something completely we have to use $unset. it is completely opposite of #set
+  - The structure of unset is
+
+  ```javascript
+  {$unset : {<field> : ""}}
+  ```
+
+  - If we want to remove the birthday
+
+  ```javascript
+  db.waaa.updateOne(
+  {_id: ObjectId("6406ad63fc13ae5a40000065")},
+  {$unset : {birthday : ""}}
+  )
+  <!-- This can be done in another method -->
+  db.waaa.updateOne(
+  {_id: ObjectId("6406ad63fc13ae5a40000065")},
+  {$unset : {age:1}}
+  <!-- this means age:true-->
+  )
+  ```
+
+  - If we want too remove something from array we have to use array update operator
+  - Structure of $pop is
+
+  ```javascript
+  {$pop :{<field> : <-1 | 1>}
+  <!-- here -1 means it will remove from first element of the array -->
+  db.waaa.updateOne(
+  {_id: ObjectId("6406ad63fc13ae5a40000065")},
+  {$pop : {friends : -1}}
+  )
+  <!-- here 1 means it will remove last element of array -->
+  db.waaa.updateOne(
+  {_id: ObjectId("6406ad63fc13ae5a40000065")},
+  {$pop : {friends : 1}}
+  )
+  ```
+
+  - If we want to pull a specific element by name and remove we have to use $pull operator
+
+  ```javascript
+  db.waaa.updateOne(
+    { _id: ObjectId("6406ad63fc13ae5a40000065") },
+    { $pull: { friends: "Tanmoy Parvez" } }
+  );
+  ```
+
+  - If we ant to pull multiple elements from an array we have to use $pullAll
+
+  ```javascript
+  <!-- Structure of $pullAll is   {$pullAll : {field : [value, value,...],...}}-->
+  db.waaa.updateOne(
+  {_id: ObjectId("6406ad63fc13ae5a40000065")},
+  {$pullAll : {friends : ["Najmus Sakib", "Mir Hussain", "Fahim Ahammed Firoz"]}}
+  )
+  ```
+
+  ### More About $set (its in object) and $inc
+
+  - we can update a field of an object using $set as well. Though its is a non-primitive type.
+
+  ```javascript
    db.waaa.updateOne(
-    {_id : ObjectId("6406ad63fc13ae5a40000065")},
-    { $set: {age:20}}
-    )
-   ```
-   - $set replaces the field with new update things. This works meaningful only for primitive data type. if its a non primitive data type its not meaningful. We can use $set for non primitive only if we want to replace intentionally.
-   - For non-primitive data we will use $addToSet. This will set inside the array keeping no duplicates.
-   - Structure for it is
-    ```javascript
-    {$addToSet : {<field> : <value>}}
-    ```
-   - Example of $addToSet
-    ```javascript
-    db.waaa.updateOne(
-    {_id : ObjectId("6406ad63fc13ae5a40000065")},
-    { $addToSet: {interests : "Gaming"} }
-    )
-    ``` 
-    - If we want to add multiple things in the array we have to use $each.
-    ```javascript
-    db.waaa.updateOne(
-    {_id : ObjectId("6406ad63fc13ae5a40000065")},
-    { $addToSet: {interests : {$each : ["Sleeping", "Texting"]}}}
-    )
-    ``` 
-    - If we want to keep the duplicates we have to use $push
-    ```javascript
-    <!-- Structure -->
-    {$push : {<field> :<value>,...}}
-    db.waaa.updateOne(
-    {_id : ObjectId("6406ad63fc13ae5a40000065")},
-    { $push: {interests : {$each : ["Sleeping", "Texting"]}}}
-    )
-    ``` 
+  {_id: ObjectId("6406ad63fc13ae5a40000065")},
+  {$set : {
+      "address.street" : "Atipara",
+      "address.city" : "Dhaka",
+      "address.country" : "Bangladesh"}}
+      <!-- there may be multiple fields or single field -->
+  )
+  ```
 
-    ### Understanding of $unset, $pop, $pull, $pullAll
-    - if we want to remove something completely we have to use $unset. it is completely opposite of #set
-    - The structure of unset is 
-    ```javascript
-    {$unset : {<field> : ""}}
-    ```
-    - If we want to remove the birthday
-    ```javascript
-    db.waaa.updateOne(
-    {_id: ObjectId("6406ad63fc13ae5a40000065")},
-    {$unset : {birthday : ""}}
-    )
-    <!-- This can be done in another method -->
-    db.waaa.updateOne(
-    {_id: ObjectId("6406ad63fc13ae5a40000065")},
-    {$unset : {age:1}}
-    <!-- this means age:true-->
-    )
-    ```
-    - If we want too remove something from array we have to use array update operator 
-    - Structure of $pop is 
-    ```javascript
-    {$pop :{<field> : <-1 | 1>}
-    <!-- here -1 means it will remove from first element of the array -->
-    db.waaa.updateOne(
-    {_id: ObjectId("6406ad63fc13ae5a40000065")},
-    {$pop : {friends : -1}}
-    )
-    <!-- here 1 means it will remove last element of array -->
-    db.waaa.updateOne(
-    {_id: ObjectId("6406ad63fc13ae5a40000065")},
-    {$pop : {friends : 1}}
-    )
-    ```
-    - If we want to pull a specific element by name and remove we have to use $pull operator
-    ```javascript
-    db.waaa.updateOne(
-    {_id: ObjectId("6406ad63fc13ae5a40000065")},
-    {$pull : {friends : "Tanmoy Parvez"}}
-    )
-    ```
-    - If we ant to pull multiple elements from an array we have to use $pullAll 
-    ```javascript
-    <!-- Structure of $pullAll is   {$pullAll : {field : [value, value,...],...}}-->
-    db.waaa.updateOne(
-    {_id: ObjectId("6406ad63fc13ae5a40000065")},
-    {$pullAll : {friends : ["Najmus Sakib", "Mir Hussain", "Fahim Ahammed Firoz"]}}
-    )
-    ```
+  - To Update an array of object we have to use positional operator $ . this ensures only one document will be updated.
 
-    ### More About $set (its in object) and $inc
-    - we can update a field of an object using $set as well. Though its is a non-primitive type. 
-    ```javascript
-     db.waaa.updateOne(
-    {_id: ObjectId("6406ad63fc13ae5a40000065")},
-    {$set : {
-        "address.street" : "Atipara",
-        "address.city" : "Dhaka",
-        "address.country" : "Bangladesh"}}
-        <!-- there may be multiple fields or single field -->
-    )
-    ```
-    - To Update an array of object we have to use positional operator $ . this ensures only one document will be updated.
-    ```javascript
-    db.waaa.updateOne(
-    {_id: ObjectId("6406ad63fc13ae5a40000065"), "education.major" : "Art"},
-    { $set : {"education.$.major" : "CSE"}}
-    )
-    ```
-    - If we want to increment using mongodb we have to use $inc
-    ```javascript
-    db.waaa.updateOne(
-    {_id: ObjectId("6406ad63fc13ae5a40000065")},
-    { $inc : {age:1}}
-    <!-- age:1,2,3,4 any incremental number it can be -->
-    )
-    ```
-    ### Understanding of delete documents, drop collection
-    - If we want to delete a document we have to use deleteOne
-    ```javascript
-    db.waaa.deleteOne({_id: ObjectId("6406ad63fc13ae5a40000065")})
-    ```
-    - If we want to create a new collection
+  ```javascript
+  db.waaa.updateOne(
+    { _id: ObjectId("6406ad63fc13ae5a40000065"), "education.major": "Art" },
+    { $set: { "education.$.major": "CSE" } }
+  );
+  ```
+
+  - If we want to increment using mongodb we have to use $inc
+
+  ```javascript
+  db.waaa.updateOne(
+  {_id: ObjectId("6406ad63fc13ae5a40000065")},
+  { $inc : {age:1}}
+  <!-- age:1,2,3,4 any incremental number it can be -->
+  )
+  ```
+
+  ### Understanding of delete documents, drop collection
+
+  - If we want to delete a document we have to use deleteOne
+
+  ```javascript
+  db.waaa.deleteOne({ _id: ObjectId("6406ad63fc13ae5a40000065") });
+  ```
+
+  - If we want to create a new collection
+
   ```javascript
   db.post.drop({writeConcern : {w:1}})
   <!-- Here post is a name of collection -->
   ```
+
 ### Practice Problems
+
 ![alt text](image.png)
 
 //problem-1
+
 ```javascript
-db.waaa.find({age:{$gte : 30}}).project({name:1,email:1})
+db.waaa.find({ age: { $gte: 30 } }).project({ name: 1, email: 1 });
 ```
+
 //problem-2
+
 ```javascript
-db.waaa.find({
-    $or: [
-      {favoutiteColor : "Blue"},
-      {favoutiteColor : "Maroon"}
-    ]
-}).project({favoutiteColor :1 })
+db.waaa
+  .find({
+    $or: [{ favoutiteColor: "Blue" }, { favoutiteColor: "Maroon" }],
+  })
+  .project({ favoutiteColor: 1 });
 ```
 
 //problem-3
-```javascript
-db.waaa.find({
-    skills : {$size :0}
-}).project({skills:1})
-```
-//problem-4
-```javascript
-db.waaa.find({
-    $and: [
-      {"skills.name" : "JAVASCRIPT"},
-      {"skills.name" : "JAVA"},
-    ]
-}).project({"skills.name" :1 })
-```
-//problem-5
-```javascript
-db.waaa.updateOne(
-    {_id :  ObjectId("6406ad63fc13ae5a40000068")},
-    {$set : {email : "amccurry3@cnet.com"}}
-    )
-db.waaa.updateOne(
-    { _id: ObjectId("6406ad63fc13ae5a40000068") },
-    {
-        $addToSet: {
-            skills: {
-                "name": "Python"
-                ,
-                "level": "Beginner"
-                ,
-                "isLearning": true
-            }
 
-        }
-    })
+```javascript
+db.waaa
+  .find({
+    skills: { $size: 0 },
+  })
+  .project({ skills: 1 });
 ```
+
+//problem-4
+
+```javascript
+db.waaa
+  .find({
+    $and: [{ "skills.name": "JAVASCRIPT" }, { "skills.name": "JAVA" }],
+  })
+  .project({ "skills.name": 1 });
+```
+
+//problem-5
+
+```javascript
+db.waaa.updateOne(
+  { _id: ObjectId("6406ad63fc13ae5a40000068") },
+  { $set: { email: "amccurry3@cnet.com" } }
+);
+db.waaa.updateOne(
+  { _id: ObjectId("6406ad63fc13ae5a40000068") },
+  {
+    $addToSet: {
+      skills: {
+        name: "Python",
+        level: "Beginner",
+        isLearning: true,
+      },
+    },
+  }
+);
+```
+
 //problem-6
+
 ```javascript
 db.waaa.updateOne(
-    {_id :  ObjectId("6406ad63fc13ae5a40000068")},
-    {$addToSet : {languages : "Spanish"}}
-    )
+  { _id: ObjectId("6406ad63fc13ae5a40000068") },
+  { $addToSet: { languages: "Spanish" } }
+);
 ```
+
 //problem-7
+
 ```javascript
 db.waaa.updateOne(
-    { _id: ObjectId("6406ad63fc13ae5a40000068") },
-    { $pull: { skills: { name: "C" } } }
+  { _id: ObjectId("6406ad63fc13ae5a40000068") },
+  { $pull: { skills: { name: "C" } } }
 );
 ```
