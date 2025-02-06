@@ -163,9 +163,11 @@ db.waaa
   ```
 - we will use explicit and when conditions are more nested
 - Structure for $and and others
+
   ```javascript
   {$and :[{ex1},{ex2},...,{exN}]}
   ```
+
   ```javascript
   db.waaa
     .find({
@@ -174,6 +176,12 @@ db.waaa
     .project({ age: 1, gender: 1 })
     .sort({ age: 1 });
   ```
+
+  - Implicit $and is great for single-field filtering (shorter, cleaner).
+  - Explicit $and is necessary for multiple fields or complex conditions. Allows doing query based on the same field again.
+  - Performance is nearly the same, but explicit $and improves clarity in complex queries.
+  - Let me know if you need further clarification!
+
 - $or method
 
 ```JAVASCRIPT
