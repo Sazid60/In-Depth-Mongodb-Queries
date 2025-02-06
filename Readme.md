@@ -115,6 +115,7 @@ db.waaa
 ```
 
 - $in operator selects the documents where the value of a field is equal to any value in the specific array
+- using $In Means If any value matches with the targeted field it will give the value even if One Matches
 - Structure of $in and $nin
 
 ```javascript
@@ -143,7 +144,7 @@ db.waaa
     {
       gender: "Female",
       age: { $nin: [18, 20, 22, 24, 28, 30] },
-      interests: { $in: ["Cooking", "Gaming"] },
+      interests: { $in: ["Cooking", "Gaming"] }, //Here If In One Array One Value matches it will show the filed. if multiple matches it will show the field.
     },
     { age: 1, gender: 1, interests: 1 }
   )
