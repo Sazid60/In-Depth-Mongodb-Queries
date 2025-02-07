@@ -116,6 +116,7 @@ db.waaa
 
 - $in operator selects the documents where the value of a field is equal to any value in the specific array
 - using $In Means If any value matches with the targeted field it will give the value even if One Matches
+- $nin is completely opposite to $in that means it will skip the values.
 - Structure of $in and $nin
 
 ```javascript
