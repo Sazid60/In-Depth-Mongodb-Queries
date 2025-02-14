@@ -188,6 +188,12 @@ db.waaa
     .sort({ age: 1 });
   ```
 
+  ```ts
+  db.Test.find({
+    $and: [{ gender: "Female" }, { age: { $gte: 18 } }, { age: { $lte: 20 } }],
+  }).project({ age: 1, gender: 1 });
+  ```
+
   - Implicit $and is great for single-field filtering (shorter, cleaner).
   - Explicit $and is necessary for multiple fields or complex conditions. Allows doing query based on the same field again.
   - Performance is nearly the same, but explicit $and improves clarity in complex queries.
@@ -203,6 +209,10 @@ db.waaa.find({
 }).project({interests :1})
 ```
 
+- Or Method Allows things like if any thing matches it will show result.
+- Its like $in Method.
+- Used for more complex queries
+
 - if there is need to access more nested data filed
 
 ```javascript
@@ -211,6 +221,10 @@ db.waaa
     $or: [{ "skills.name": "JAVASCRIPT" }, { "skills.name": "PYTHON" }],
   })
   .project({ skills: 1 });
+
+db.Test.find({
+  $or: [{ "skills.name": "JAVASCRIPT" }, { "skills.name": "PYTHON" }],
+}).project({ "skills.name": 1 });
 
 // as this is searching in same field so we can search using $in as well
 db.waaa
@@ -228,6 +242,7 @@ db.waaa
 - Which documents have the phone field will show here
   ```javascript
   db.waaa.find({ phone: { $exists: true } });
+  db.Test.find({ phone: { $exists: true } }).project({ phone: 1 });
   ```
 - as unknown is not present in the data so i will return false
 
@@ -378,8 +393,9 @@ db.waaa
   ```
 
   - If we want to add multiple things in the array we have to use $each.
+  - This will Not Duplicate the things
 
-  ```javascript
+- ```javascript
   db.waaa.updateOne(
     { _id: ObjectId("6406ad63fc13ae5a40000065") },
     { $addToSet: { interests: { $each: ["Sleeping", "Texting"] } } }
