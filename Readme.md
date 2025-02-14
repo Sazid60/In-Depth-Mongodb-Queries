@@ -61,7 +61,7 @@ db.waaa.find({ gender: "Male" }, { gender: 1 });
   ```javascript
   db.waaa.find({ gender: "Male" }, { gender: 1, name: 1, age: 1, email: 1 });
   ```
-- Project is similar to fill filtering except one problem. The problem is project nly works with find. if we use findOne it will not work
+- Project is similar to fill filtering except one problem. The problem is project only works with find. if we use findOne it will not work
   ```javascript
   db.waaa.find({ gender: "Female" }).project({ name: 1, gender: 1 });
   ```
@@ -78,12 +78,18 @@ db.waaa.find({ gender: "Male" }, { gender: 1 });
   ```
 - $neq is opposite to the $eq
   ```javascript
+  db.Test.find({ gender: { $eq: "Male" } }, { gender: 1 });
   db.waaa.find({ gender: { $eq: "Female" } }, { gender: 1, name: 1 });
+  db.waaa.find({ gender: { $eq: "Female" } }).project({ gender: 1, name: 1 });
   ```
 - $lt is opposite to $gt
 
 ```javascript
 db.waaa.find({ age: { $gt: 18 } });
+```
+
+```ts
+db.Test.find({ age: { $gte: 18 } }, { age: 1 }).sort({ age: 1 });
 ```
 
 - $lte is opposite to $gte
@@ -100,7 +106,7 @@ db.waaa.find({ age: { $gt: 18 } });
 db.waaa.find({ age: { $gte: 18, $lte: 30 } }, { age: 1 }).sort({ age: 1 });
 ```
 
-- We can match multiple filed using implicit add as well
+- We can match multiple fields using implicit and as well
 
 ```javascript
 db.waaa
@@ -137,6 +143,10 @@ db.waaa
     { age: 1, gender: 1 }
   )
   .sort({ age: 1 });
+
+db.Test.find({ gender: "Male", age: { $in: [18, 13, 20, 21, 22] } }).project({
+  age: 1,
+});
 ```
 
 ```javascript
@@ -181,7 +191,6 @@ db.waaa
   - Implicit $and is great for single-field filtering (shorter, cleaner).
   - Explicit $and is necessary for multiple fields or complex conditions. Allows doing query based on the same field again.
   - Performance is nearly the same, but explicit $and improves clarity in complex queries.
-  - Let me know if you need further clarification!
 
 - $or method
 
@@ -211,7 +220,7 @@ db.waaa
 
 ### Understanding of element operator, array query operator , $exists, $type, $size
 
-- if we want to make sure the data really exist in the documents we will use $exists. There is problem with it it can not identify null and undefined
+- If we want to make sure the data really exist in the documents we will use $exists. There is problem with it it can not identify null and undefined
 - Structure
   ```javascript
   {field : {$exist : <boolean>}}
@@ -240,7 +249,7 @@ db.waaa
   db.waaa.find({ friends: { $type: "array" } }).project({ friends: 1 });
   ```
 
-  - If we want to figure out what if the array is empty we have to use array query operator $size. If will mention specific $size it will give us the exact sized array
+  - If we want to figure out what if the array is empty we have to use array query operator $size. It will mention specific $size it will give us the exact sized array
   - size is used only in array
   - Structure
 
